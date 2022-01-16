@@ -22,6 +22,7 @@ fuzzy_labels = ["zero", "five after", "ten after", "fifteen after", "twenty afte
 
 hours = ["Twelve", "One", "Two", "Three", "Four", "Five", "Six",
          "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"]
+'''
 
 fig, axs = plt.subplots(2)
 axs[0].plot(x, minutes_mv[0], linewidth=1.5, label=fuzzy_labels[0])
@@ -39,31 +40,37 @@ axs[0].plot(x, minutes_mv[9], linewidth=1.5, label=fuzzy_labels[9])
 axs[0].set_title("Fuzzy Clock")
 axs[0].set_ylabel("Membership")
 axs[0].set_xlabel("Time")
-
-
+'''
 # get time:
-h, m, s = time.strftime("%H:%M:%S", time.localtime()).split(":")
-h, m, s = [int(h), int(m), int(s)]
-c = 0
-max_mv = minutes_mv[0][m*10]
-for i in range(1, 10):
-    if minutes_mv[i][m*10] > max_mv:
-        max_mv = minutes_mv[i][m*10]
-        c = i
+c_old = -1
+while True:
+    h, m, s = time.strftime("%H:%M:%S", time.localtime()).split(":")
+    h, m, s = [int(h), int(m), int(s)]
+    c = 0
+    max_mv = minutes_mv[0][m*10]
+    for i in range(1, 10):
+        if minutes_mv[i][m*10] > max_mv:
+            max_mv = minutes_mv[i][m*10]
+            c = i
 
-if h >= 12:
-    h -= 12
+    if c_old != c:
+        c_old = c
+        if h >= 12:
+            h -= 12
 
-if c > 0 and c <= 5:
-    print(f"It is {fuzzy_labels[c]} {hours[h]}")
-elif c > 5 and c < 9:
-    print(f"It is {fuzzy_labels[c]}  {hours[h+1]}")
-elif c == 0:
-    print(f"It is {hours[h]}")
-elif c == 9:
-    print(f"It is {hours[h+1]}")
+        if c > 0 and c <= 5:
+            print(f"It is {fuzzy_labels[c]} {hours[h]}")
+        elif c > 5 and c < 9:
+            print(f"It is {fuzzy_labels[c]}  {hours[h+1]}")
+        elif c == 0:
+            print(f"It is {hours[h]}")
+        elif c == 9:
+            print(f"It is {hours[h+1]}")
 
+    time.sleep(60)  # refresh time
 
+'''
 axs[0].axvline(x=m, c='r', ls='--')
 axs[0].legend(shadow=True)
 plt.show()
+'''
