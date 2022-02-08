@@ -45,31 +45,15 @@ hours = [
     "Eleven",
     "Twelve",
 ]
-"""
-
-fig, axs = plt.subplots(2)
-axs[0].plot(x, minutes_mv[0], linewidth=1.5, label=fuzzy_labels[0])
-axs[0].plot(x, minutes_mv[1], linewidth=1.5, label=fuzzy_labels[1])
-axs[0].plot(x, minutes_mv[2], linewidth=1.5, label=fuzzy_labels[2])
-axs[0].plot(x, minutes_mv[3], linewidth=1.5, label=fuzzy_labels[3])
-axs[0].plot(x, minutes_mv[4], linewidth=1.5, label=fuzzy_labels[4])
-axs[0].plot(x, minutes_mv[5], linewidth=1.5, label=fuzzy_labels[5])
-axs[0].plot(x, minutes_mv[6], linewidth=1.5, label=fuzzy_labels[6])
-axs[0].plot(x, minutes_mv[7], linewidth=1.5, label=fuzzy_labels[7])
-axs[0].plot(x, minutes_mv[8], linewidth=1.5, label=fuzzy_labels[8])
-axs[0].plot(x, minutes_mv[9], linewidth=1.5, label=fuzzy_labels[9])
 
 
-axs[0].set_title("Fuzzy Clock")
-axs[0].set_ylabel("Membership")
-axs[0].set_xlabel("Time")
-"""
-# get time:
+def _get_time():
+    h, m, s = time.strftime("%H:%M:%S", time.localtime()).split(":")
+    return [int(h), int(m), int(s)]
 
 
 def get_fuzzy_time():
-    h, m, s = time.strftime("%H:%M:%S", time.localtime()).split(":")
-    h, m, s = [int(h), int(m), int(s)]
+    h, m, s = _get_time()
     c = 0
     max_mv = minutes_mv[0][m * 10]
     for i in range(1, 10):
@@ -92,8 +76,22 @@ def get_fuzzy_time():
     return fuzzy_time
 
 
-"""
-axs[0].axvline(x=m, c='r', ls='--')
-axs[0].legend(shadow=True)
-plt.show()
-"""
+def plot_fuzzy_minutes():
+    h, m, s = _get_time()
+    fig, axs = plt.subplots(1, figsize=(15, 6))
+    axs.plot(x, minutes_mv[0], linewidth=1.5, label=fuzzy_labels[0])
+    axs.plot(x, minutes_mv[1], linewidth=1.5, label=fuzzy_labels[1])
+    axs.plot(x, minutes_mv[2], linewidth=1.5, label=fuzzy_labels[2])
+    axs.plot(x, minutes_mv[3], linewidth=1.5, label=fuzzy_labels[3])
+    axs.plot(x, minutes_mv[4], linewidth=1.5, label=fuzzy_labels[4])
+    axs.plot(x, minutes_mv[5], linewidth=1.5, label=fuzzy_labels[5])
+    axs.plot(x, minutes_mv[6], linewidth=1.5, label=fuzzy_labels[6])
+    axs.plot(x, minutes_mv[7], linewidth=1.5, label=fuzzy_labels[7])
+    axs.plot(x, minutes_mv[8], linewidth=1.5, label=fuzzy_labels[8])
+    axs.plot(x, minutes_mv[9], linewidth=1.5, label=fuzzy_labels[9])
+    axs.set_title("Fuzzy Minutes")
+    axs.set_ylabel("Membership")
+    axs.set_xlabel("Time")
+    axs.axvline(x=m, c="r", ls="--")
+    axs.legend(loc="upper left", bbox_to_anchor=(1.004, 1))
+    plt.savefig(fname="graph.png")
