@@ -95,3 +95,4 @@ def plot_fuzzy_minutes():
     axs.axvline(x=m, c="r", ls="--")
     axs.legend(loc="upper left", bbox_to_anchor=(1.004, 1))
     plt.savefig(fname="graph.png")
+    plt.close(fig)
